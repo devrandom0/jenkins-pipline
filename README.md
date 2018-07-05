@@ -27,7 +27,9 @@ node {
     def app
 
     environment {
-        DISABLE_AUTH = 'true'
+        ownRegistry = 'hub.simo.ir'
+        ownRegistrySchema = 'http'
+
     }
 
     stage('Clone repository') {
@@ -40,7 +42,7 @@ node {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
 
-        app = docker.build("hub.ts.co.ir/alpine-test")
+        app = docker.build("${ownRegistry}/alpine-test")
     }
 
     stage('Test image') {
@@ -58,7 +60,7 @@ node {
             * First, the incremental build number from Jenkins
             * Second, the 'latest' tag.
             * Pushing multiple tags is cheap, as all the layers are reused. */
-            docker.withRegistry('http://hub.ts.co.ir') {
+            docker.withRegistry("${ownRegistrySchema}://${ownRegistry}") {
                 app.push("${env.BUILD_NUMBER}")
                 app.push("latest")
             }
