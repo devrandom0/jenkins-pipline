@@ -11,7 +11,8 @@ in my example it check every 5 minutes.
 ![alt text](https://raw.githubusercontent.com/sinamoghaddas/jenkins-pipline/master/docs/3-config-build-triggers-schedule.png)
 
 at 'Pipeline' tab, use 'Pipeline script from SCM' with 'SCM' git in 'Definition'.
-write down 'Repository URL'. Click on Save
+write down 'Repository URL', check your 'Script Path' (Jenkinsfile) and 'Branch Specifier'
+Click on Save
 ![alt text](https://raw.githubusercontent.com/sinamoghaddas/jenkins-pipline/master/docs/4-config-pipeline-with-git.png)
 
 you can use 'Build Now'
