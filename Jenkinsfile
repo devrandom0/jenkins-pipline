@@ -6,6 +6,9 @@ node {
     environment {
         ownRegistry = 'hub.simo.ir'
         ownRegistrySchema = 'http'
+        imageName = 'alpine-test'
+        imageVersion = 'latest'
+        branchName = 'master'
 
     }
 
@@ -19,7 +22,7 @@ node {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
 
-        app = docker.build("${ownRegistry}/alpine-test")
+        app = docker.build("${ownRegistry}/${imageName}")
     }
 
     stage('Test image') {
@@ -31,7 +34,7 @@ node {
         }
     }
 
-    if(env.BRANCH_NAME == 'master'){
+    if(env.BRANCH_NAME == "${branchName}"){
         stage('Push image') {
             /* Finally, we'll push the image with two tags:
             * First, the incremental build number from Jenkins
@@ -39,7 +42,7 @@ node {
             * Pushing multiple tags is cheap, as all the layers are reused. */
             docker.withRegistry("${ownRegistrySchema}://${ownRegistry}") {
                 app.push("${env.BUILD_NUMBER}")
-                app.push("latest")
+                app.push("${imageVersion}")
             }
         }
     }
