@@ -1,6 +1,6 @@
 # jenkins-pipline
 
-click on 'New Item'
+click on 'New Item'.
 ![alt text](https://raw.githubusercontent.com/sinamoghaddas/jenkins-pipline/master/docs/1-new-item.png)
 
 write name of item in 'Enter an item name', Select 'Pipeline' and click on 'OK'
