@@ -1,6 +1,13 @@
 #!/usr/bin/env groovy
+
 node {
     def app
+
+    environment {
+        ownRegistry = 'hub.simo.ir'
+        ownRegistrySchema = 'http'
+
+    }
 
     stage('Clone repository') {
         /* Let's make sure we have the repository cloned to our workspace */
@@ -12,7 +19,7 @@ node {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
 
-        app = docker.build("hub.ts.co.ir/alpine-test")
+        app = docker.build("${ownRegistry}/alpine-test")
     }
 
     stage('Test image') {
@@ -24,15 +31,16 @@ node {
         }
     }
 
-    stage('Push image') {
-        /* Finally, we'll push the image with two tags:
-         * First, the incremental build number from Jenkins
-         * Second, the 'latest' tag.
-         * Pushing multiple tags is cheap, as all the layers are reused. */
-        docker.withRegistry('http://hub.ts.co.ir') {
-            app.push("${env.BUILD_NUMBER}")
-            app.push("latest")
+    if(env.BRANCH_NAME == 'master'){
+        stage('Push image') {
+            /* Finally, we'll push the image with two tags:
+            * First, the incremental build number from Jenkins
+            * Second, the 'latest' tag.
+            * Pushing multiple tags is cheap, as all the layers are reused. */
+            docker.withRegistry("${ownRegistrySchema}://${ownRegistry}") {
+                app.push("${env.BUILD_NUMBER}")
+                app.push("latest")
+            }
         }
     }
 }
-
