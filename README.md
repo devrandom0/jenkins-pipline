@@ -13,7 +13,8 @@ write name of item in `Enter an item name`, Select `Pipeline` and click on OK
 
 
 at `Build Triggers`, check `Poll SCM`, and write schedule for it.
-in my example it check every 5 minutes.
+in my example it check every 5 minutes. 
+`H/5 * * * *`
 
 ![alt text](https://raw.githubusercontent.com/sinamoghaddas/jenkins-pipline/master/docs/3-config-build-triggers-schedule.png)
 
