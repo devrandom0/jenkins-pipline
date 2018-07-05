@@ -1,4 +1,4 @@
-# jenkins-pipline
+# Jenkins Pipline
 
 click on `New Item`.
 
