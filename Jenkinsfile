@@ -20,7 +20,7 @@ node {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
 
-        app = docker.build("${ownRegistry}/${imageName}")
+        app = docker.build("${env.ownRegistry}/${env.imageName}")
     }
 
     stage('Test image') {
@@ -32,15 +32,15 @@ node {
         }
     }
 
-    if(env.BRANCH_NAME == "${branchName}"){
+    if(env.BRANCH_NAME == "${env.branchName}"){
         stage('Push image') {
             /* Finally, we'll push the image with two tags:
             * First, the incremental build number from Jenkins
             * Second, the 'latest' tag.
             * Pushing multiple tags is cheap, as all the layers are reused. */
-            docker.withRegistry("${ownRegistrySchema}://${ownRegistry}") {
+            docker.withRegistry("${env.ownRegistrySchema}://${env.ownRegistry}") {
                 app.push("${env.BUILD_NUMBER}")
-                app.push("${imageVersion}")
+                app.push("${env.imageVersion}")
             }
         }
     }
